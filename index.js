@@ -6,6 +6,7 @@ const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
   const username = process.env.GITHUB_REPOSITORY.split("/")[0];
   const repo = process.env.GITHUB_REPOSITORY.split("/")[1];
   const filePath = core.getInput("path");
+  const repoFullName = process.env.GITHUB_REPOSITORY;
 
   let markdownContent = core
     .getInput("template")
@@ -74,7 +75,9 @@ const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
     const repoCommitsCount = repoCommits.data.length;
 
     element.commits = repoCommitsCount;
-    reposCountCommits.push(element);
+    if (repoFullName != element.full_name) {
+      reposCountCommits.push(element);
+    }
   }
 
   const sortedRepos = reposCountCommits
