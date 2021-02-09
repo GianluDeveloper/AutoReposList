@@ -1,0 +1,27 @@
+name: Auto Repos List
+on:
+  push:
+  schedule:
+    - cron: "*/10 * * * *"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Auto Repos List
+        uses: GianluDeveloper/AutoReposList@v1.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          welcome: "Hi there 👋"
+          presentation: "⚡ I'm a Full Stack Web Developer from Italy 🇮🇹"
+          contact: "Something to tell me? Write at <git@gianlu.dev>"
+          projectListTitle: "My GitHub Projects"
+          path: "README.md"
+          template: |
+            # ${welcome}
+
+            ### ${presentation}
+
+            ### ${contact}
+            ---
+            # ${projectListTitle}

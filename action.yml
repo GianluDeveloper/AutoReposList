@@ -1,0 +1,46 @@
+name: "AutoReposList"
+description: "Automatic keep track of your repositories in the README."
+inputs:
+  welcome:
+    description: "The Welcome message."
+    required: true
+    default: ""
+  presentation:
+    description: "Your presentation."
+    required: true
+    default: ""
+  contact:
+    description: "Some contact information."
+    required: true
+    default: ""
+  projectListTitle:
+    description: "The Listing header title."
+    required: true
+    default: ""
+  path:
+    description: "The path of your README.md file."
+    required: false
+    default: "README.md"
+  template:
+    description: "Template for the README."
+    required: false
+    default: |
+      # ${welcome}
+
+      ### ${presentation}
+
+      ### ${contact}
+      ---
+      # ${projectListTitle}
+
+outputs:
+  repositories:
+    description: "List of recent repositories to be displayed on your README.md."
+
+branding:
+  icon: activity
+  color: green
+
+runs:
+  using: "node12"
+  main: "index.js"
