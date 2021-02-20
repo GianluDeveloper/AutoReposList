@@ -107,7 +107,7 @@ const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
       " ```\n\n";
   }
 
-  const { content } = await octokit.request(
+  const currentContent = await octokit.request(
     "GET /repos/{owner}/{repo}/contents/{path}",
     {
       owner: username,
@@ -115,6 +115,8 @@ const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
       path: filePath,
     }
   );
+  console.log(currentContent);
+  const content = currentContent.content;
   const base64NewContent = Buffer.from(markdownContent, "utf8").toString(
     "base64"
   );
