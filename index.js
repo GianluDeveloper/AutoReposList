@@ -107,18 +107,32 @@ const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
       " ```\n\n";
   }
 
-  const pushResponse = await octokit
-    .request("PUT /repos/{owner}/{repo}/contents/{path}", {
+  const { content } = await octokit.request(
+    "GET /repos/{owner}/{repo}/contents/{path}",
+    {
       owner: username,
       repo: repo,
       path: filePath,
-      message: `(Automated) Update ${filePath}`,
-      content: Buffer.from(markdownContent, "utf8").toString("base64"),
-      sha: sha,
-    })
-    .catch((e) => {
-      console.error("Failed: ", e);
-      core.setFailed("Failed: ", e.message);
-    });
-  console.log("Log", username, repo, filePath, sha, pushResponse);
+    }
+  );
+  const base64NewContent = Buffer.from(markdownContent, "utf8").toString(
+    "base64"
+  );
+  if (content !== base64NewContent) {
+    const pushResponse = await octokit
+      .request("PUT /repos/{owner}/{repo}/contents/{path}", {
+        owner: username,
+        repo: repo,
+        path: filePath,
+        message: `(Automated) Update ${filePath}`,
+        content: base64NewContent,
+        sha: sha,
+      })
+      .catch((e) => {
+        console.error("Failed: ", e);
+        core.setFailed("Failed: ", e.message);
+      });
+    console.log("Log", username, repo, filePath, sha, pushResponse);
+  }
+  console.log("Log", "already exists, not updating");
 })();
