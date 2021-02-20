@@ -115,8 +115,7 @@ const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
       path: filePath,
     }
   );
-  console.log(currentContent);
-  const content = currentContent.content;
+  const content = currentContent.data.content;
   const base64NewContent = Buffer.from(markdownContent, "utf8").toString(
     "base64"
   );
