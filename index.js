@@ -118,7 +118,7 @@ const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
   const base64NewContent = Buffer.from(markdownContent, "utf8").toString(
     "base64"
   );
-  if (content !== base64NewContent) {
+  if (content.trim() !== base64NewContent.trim()) {
     const pushResponse = await octokit
       .request("PUT /repos/{owner}/{repo}/contents/{path}", {
         owner: username,
@@ -133,6 +133,7 @@ const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
         core.setFailed("Failed: ", e.message);
       });
     console.log("Log", username, repo, filePath, sha, pushResponse);
+  } else {
+    console.log("Log", "already exists, not updating");
   }
-  console.log("Log", "already exists, not updating");
 })();
