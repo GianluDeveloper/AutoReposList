@@ -119,7 +119,11 @@ const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
   const base64NewContent = Buffer.from(markdownContent, "utf8").toString(
     "base64"
   );
-  if (content.trim() !== base64NewContent.trim()) {
+  const contentDecoded = Buffer.from(content, "base64").toString("utf-8");
+  const base64Decoded = Buffer.from(base64NewContent, "base64").toString(
+    "utf-8"
+  );
+  if (base64Decoded.trim() !== contentDecoded.trim()) {
     const pushResponse = await octokit
       .request("PUT /repos/{owner}/{repo}/contents/{path}", {
         owner: username,

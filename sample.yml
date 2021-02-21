@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Auto Repos List
-        uses: GianluDeveloper/AutoReposList@v1.1
+        uses: GianluDeveloper/AutoReposList@v1.30
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
